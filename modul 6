@@ -1,0 +1,56 @@
+nilai = [
+    [80, 75, 90, 85, 88],
+    [70, 85, 75, 80, 82],
+    [90, 80, 85, 88, 92]
+]
+
+mahasiswa = ["Mahasiswa A", "Mahasiswa B", "Mahasiswa C"]
+matkul = ["Matematika", "Fisika", "Kimia", "Biologi", "Bahasa Inggris"]
+
+print("\nData Nilai Ujian Mahasiswa:")
+print("=============================================")
+print("Nama Mahasiswa\t", end="")
+for matkull in matkul:
+    print(matkull, "\t", end="")
+print("\n=============================================")
+for i in range(len(mahasiswa)):
+    print(mahasiswa[i], "\t", end="")
+    for j in range(len(matkul)):
+        print(nilai[i][j], "\t", end="")
+    print()
+print("=============================================")
+
+print("\nRata-rata Nilai Ujian Mahasiswa:")
+print("=============================================")
+for i in range(len(mahasiswa)):
+    total = 0
+    for nilaii in nilai[i]:
+        total += nilaii
+    ratarata = total / len(nilai[i])
+    print(mahasiswa[i], ": {:.2f}".format(ratarata))
+print("=============================================")
+
+print("\nNilai Tertinggi dan Terendah dari Setiap Mata Kuliah:")
+print("=============================================")
+for j in range(len(matkul)):
+    maks_nilai = nilai[0][j]
+    min_nilai = nilai[0][j]
+    maks_mahasiswa = [mahasiswa[0]]
+    min_mahasiswa = [mahasiswa[0]]
+    for i in range(1, len(mahasiswa)):
+        if nilai[i][j] > maks_nilai:
+            maks_nilai = nilai[i][j]
+            maks_mahasiswa = [mahasiswa[i]]
+        elif nilai[i][j] == maks_nilai:
+            maks_mahasiswa.append(mahasiswa[i])
+            
+        if nilai[i][j] < min_nilai:
+            min_nilai = nilai[i][j]
+            min_mahasiswa = [mahasiswa[i]]
+        elif nilai[i][j] == min_nilai:
+            min_mahasiswa.append(mahasiswa[i])
+    
+    print(matkul[j])
+    print("Nilai Tertinggi:", maks_nilai, "oleh", maks_mahasiswa)
+    print("Nilai Terendah:", min_nilai, "oleh", min_mahasiswa)
+    print("=============================================")
