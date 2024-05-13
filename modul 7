@@ -1,0 +1,32 @@
+def konversi_suhu(suhu, satuan):
+    if satuan == 'C':
+        reamur = 4/5 * suhu
+        fahrenheit = (9/5 * suhu) + 32
+        kelvin = suhu + 273.15
+        return f"Suhu {suhu} derajat {satuan} dapat dikonversi menjadi:\n||  SATUAN SUHU  ||  DERAJAT SUHU  ||\n||---------------||----------------||\n||     REUMUR    ||     {reamur:.2f}    ||\n||  FAHREINHEIT   ||     {fahrenheit:.2f}   ||\n||     KELVIN    ||     {kelvin:.2f}    ||"
+    elif satuan == 'F':
+        reamur = 4/9 * (suhu - 32)
+        celcius = 5/9 * (suhu - 32)
+        kelvin = (suhu + 459.67) * 5/9
+        return f"Suhu {suhu} derajat {satuan} dapat dikonversi menjadi:\n||  SATUAN SUHU  ||  DERAJAT SUHU  ||\n||---------------||----------------||\n||     REUMUR    ||     {reamur:.2f}    ||\n||  CELCIUS   ||     {celcius:.2f}   ||\n||     KELVIN    ||     {kelvin:.2f}    ||"
+    elif satuan == 'R':
+        celcius = (5/4) * suhu
+        fahrenheit = (9/4 * suhu) + 32
+        kelvin = (suhu * 5/4) + 273.15
+        return f"Suhu {suhu} derajat {satuan} dapat dikonversi menjadi:\n||  SATUAN SUHU  ||  DERAJAT SUHU  ||\n||---------------||----------------||\n||     REUMUR    ||     {celcius:.2f}    ||\n||  FAHREINHEIT   ||     {fahrenheit:.2f}   ||\n||     KELVIN    ||     {kelvin:.2f}    ||"
+    elif satuan == 'K':
+        reamur = 4/5 * (suhu - 273.15)
+        fahrenheit = (suhu - 273.15) * 9/5 + 32
+        celcius = suhu - 273
+        return f"Suhu {suhu} derajat {satuan} dapat dikonversi menjadi:\n||  SATUAN SUHU  ||  DERAJAT SUHU  ||\n||---------------||----------------||\n||     REUMUR    ||     {reamur:.2f}    ||\n||  FAHREINHEIT   ||     {fahrenheit:.2f}   ||\n||     KELVIN    ||     {celcius:.2f}    ||"
+    elif kelvin < 0 :
+        return "Suhu yang Anda inputkan tidak sesuai"
+    else:
+        return "Satuan suhu tidak valid"
+    
+
+suhu_input = float(input("Masukkan suhu dalam derajat: "))
+satuan_input = input("Masukkan satuan suhu (C/F/R/K): ").upper()
+
+
+print(konversi_suhu(suhu_input, satuan_input))
