@@ -1,0 +1,82 @@
+def tambah(output_buku):
+    judul = input("Masukkan judul buku: ")
+    penulis = input("Masukkan nama penulis: ")
+    penerbit = input("Masukkan nama penerbit: ")
+    tahun_terbit = input("Masukkan tahun terbit: ")
+
+    output_buku[judul] = {
+        'Penulis': penulis,
+        'Penerbit': penerbit,
+        'Tahun Terbit': tahun_terbit
+    }
+
+    print("Data buku berhasil ditambahkan!")
+    return output_buku
+
+def hapus(output_buku):
+    judul = input("Masukkan judul buku yang ingin dihapus: ")
+    if judul in output_buku:
+        del output_buku[judul]
+        print("Data buku berhasil dihapus!")
+    else:
+        print("Buku tidak ditemukan dalam daftar.")
+
+    return output_buku
+
+def tampilkan(output_buku):
+    if not output_buku:
+        print("Belum ada data buku yang tersimpan.")
+    else:
+        print("Data Buku:")
+        for judul, info in output_buku.items():
+            print(f"Judul: {judul}")
+            for key, value in info.items():
+                print(f"{key}: {value}")
+            print()
+
+def simpan(output_buku, nama):
+    with open(nama, 'w') as file:
+        for judul, info in output_buku.items():
+            file.write(f"{judul},{info['Penulis']},{info['Penerbit']},{info['Tahun Terbit']}\n")
+
+def muat(nama):
+    output_buku = {}
+    try:
+        with open(nama, 'r') as file:
+            for line in file:
+                judul, penulis, penerbit, tahun_terbit = line.strip().split(',')
+                output_buku[judul] = {'Penulis': penulis,'Penerbit': penerbit,'Tahun Terbit': tahun_terbit
+                }
+    except FileNotFoundError:
+        pass  
+    return output_buku
+
+def main():
+    nama = "output_buku.txt"
+    output_buku = muat(nama)
+
+    while True:
+        print("\n=== Menu ===")
+        print("1. Tambah Buku")
+        print("2. Hapus Buku")
+        print("3. Tampilkan Buku")
+        print("4. Keluar")
+
+        pilihan = input("Masukkan pilihan (1/2/3/4): ")
+
+        if pilihan == '1':
+            output_buku = tambah(output_buku)
+            simpan(output_buku, nama)
+        elif pilihan == '2':
+            output_buku = hapus(output_buku)
+            simpan(output_buku, nama)
+        elif pilihan == '3':
+            tampilkan(output_buku)
+        elif pilihan == '4':
+            print("Terima kasih!")
+            break
+        else:
+            print("Pilihan tidak valid. Silakan coba lagi.")
+
+if __name__ == "__main__":
+    main()
