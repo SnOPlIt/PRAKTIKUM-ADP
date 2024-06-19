@@ -1,0 +1,235 @@
+from termcolor import cprint
+import os
+os.system('cls')
+
+print("=================================================")
+print("|                SELAMAT DATANG                 |")
+print("|           DI PERPUSTAKAAN HIMATIKA            |")
+print("|             UNIVERSITAS ANDALAS               |")
+print("=================================================")
+
+
+def tambah(output_buku):
+    judul = input("Masukkan Judul Buku  : ")
+    penulis = input("Masukkan Nama Penulis : ")
+    penerbit = input("Masukkan Nama Penerbit : ")
+    tahun_terbit = input("Masukkan Tahun Terbit : ")
+    lokasi = input("Lokasi Buku Di Letakkan (Contoh : Lemari A, Rak 3): ")
+
+    output_buku[judul] = {
+        'Penulis': penulis,
+        'Penerbit': penerbit,
+        'Tahun Terbit': tahun_terbit,
+        'Lokasi Buku': lokasi
+    }
+    print("Data buku berhasil ditambahkan!")
+    tampilkan_denah()
+    return output_buku
+
+
+def hapus(output_buku):
+    judul = input("Masukkan judul buku yang ingin dihapus : ")
+    if judul in output_buku:
+        del output_buku[judul]
+        print("Data buku berhasil dihapus!")
+    else:
+        print("Buku tidak ditemukan dalam daftar.")
+
+    return output_buku
+
+
+def tampilkan(output_buku):
+    if not output_buku:
+        print("Belum ada data buku yang tersimpan.")
+    else:
+        print("Data Buku : ")
+        for judul, info in output_buku.items():
+            print(f"Judul: {judul}")
+            for key, value in info.items():
+                print(f"{key}: {value}")
+            print()
+
+
+def simpan(output_buku, nama):
+    with open(nama, 'a') as file:
+        for judul, info in output_buku.items():
+            file.write(f"{judul},{info['Penulis']},{info['Penerbit']},{info['Tahun Terbit']},{info['Lokasi Buku']}\n")
+
+
+def tampilkan_denah():
+    cprint(" "*15, 'white', 'on_black' , end="")
+    cprint("           RUANG BACA           ", 'black', 'on_yellow', end="")
+    cprint(" "*15, 'white', 'on_black')
+
+    cprint(" "*15, 'white', 'on_black', end="")
+    for i in range (6):
+        cprint(" "*2, 'white','on_yellow', end="")
+        cprint(" "*3, 'white','on_green', end="")
+    cprint(" "*2,'white','on_yellow',end="")
+    cprint(" "*15,'white','on_black')
+
+    cprint(" "*15,'white','on_black',end="")
+    cprint(" "*32,'white','on_yellow',end="")
+    cprint(" "*15, 'white', 'on_black')
+
+    cprint(" "*15, 'white', 'on_black', end="")
+    for i in range (6):
+        cprint(" "*2, 'white','on_yellow', end="")
+        cprint(" "*3, 'white','on_green', end="")
+    cprint(" "*2,'white','on_yellow',end="")
+    cprint(" "*15,'white','on_black')
+    cprint(" "*15,'white','on_black',end="")
+    cprint(" "*32,'white','on_yellow',end="")
+    cprint(" "*15,'black','on_black')
+
+    cprint("                                                 PINTU MASUK ",'black','on_black',end="")
+    cprint(" ",'black','on_blue')
+    cprint(" "*61,'black','on_black',end="")
+    cprint(" ",'black','on_blue')
+
+    cprint(" "*15, 'white','on_black',end="")
+    cprint(" "*3, 'white','on_dark_grey',end="")
+    cprint(" "*3, 'white',"on_black",end="")
+    cprint("    A    ","white",'on_green',end="")    
+    cprint(' '*3,"white",'on_black',end="")
+    cprint("    B    ","white",'on_green',end="")
+    cprint(" "*3, 'white',"on_black",end="")
+    cprint(" "*3, 'white','on_dark_grey',end="")
+    cprint(" "*14,'black',"on_black")
+
+    for i in range(3):
+        cprint(" "*15, 'white','on_black',end="")
+        cprint(" "*3, 'white','on_dark_grey',end="")
+        cprint(" "*27, 'white',"on_black",end="")
+        cprint(" "*3,"black","on_dark_grey",end="")
+        cprint(" "*14,"black","on_black")
+    
+    cprint(" "*15, 'white','on_black',end="")
+    cprint(" "*3, 'white','on_dark_grey',end="")
+    cprint(" "*3, 'white',"on_black",end="")
+    cprint("    C    ","white",'on_green',end="")    
+    cprint(' '*3,"white",'on_black',end="")
+    cprint("    D    ","white",'on_green',end="")
+    cprint(" "*3, 'white',"on_black",end="")
+    cprint(" "*3, 'white','on_dark_grey',end="")
+    cprint(" "*14,'black',"on_black")
+
+
+def cari_buku(output_buku, judul):
+    hasil_pencarian = {k: v for k, v in output_buku.items() if judul.lower() in k.lower()}
+    if not hasil_pencarian:
+        print(f"Tidak ditemukan buku dengan judul '{judul}'.")
+    else:
+        for buku_judul, buku_info in hasil_pencarian.items():
+            print(f"'{buku_judul}' oleh {buku_info['Penulis']} (Terbit: {buku_info['Tahun Terbit']}), Lokasi: {buku_info['Lokasi Buku']}")
+            tampilkan_denah()
+
+
+def muat(nama):
+    output_buku = {}
+    try:
+        with open(nama, 'r') as file:
+            for line in file:
+                data = line.strip().split(',')
+                if len(data) == 5:
+                    judul, penulis, penerbit, tahun_terbit, lokasi = data
+                    output_buku[judul] = {
+                        'Penulis': penulis,
+                        'Penerbit': penerbit,
+                        'Tahun Terbit': tahun_terbit,
+                        'Lokasi Buku': lokasi
+                    }
+    except FileNotFoundError:
+        pass
+    return output_buku
+
+
+def menu_karyawan(output_buku, nama):
+    while True:
+        print("\nMenu Karyawan:")
+        print("1. Tambah Buku")
+        print("2. Hapus Buku")
+        print("3. Lihat Daftar Buku")
+        print("4. Cari Buku")
+        print("5. Kembali ke Menu Utama")
+        pilihan = input("Pilih opsi (1/2/3/4/5): ")
+
+        if pilihan == '1':
+            output_buku = tambah(output_buku)
+            simpan(output_buku, nama)
+
+        elif pilihan == '2':
+            output_buku = hapus(output_buku)
+            simpan(output_buku, nama)
+
+        elif pilihan == '3':
+            tampilkan(output_buku)
+
+        elif pilihan == '4':
+            judul = input("Masukkan judul buku yang ingin dicari: ")
+            cari_buku(output_buku, judul)
+
+        elif pilihan == '5':
+            break
+
+        else:
+            print("Pilihan tidak valid. Silakan pilih opsi yang benar.")
+
+
+def menu_pendatang(output_buku):
+    while True:
+        print("\nMenu Pendatang:")
+        print("1. Cari Buku")
+        print("2. Lihat Daftar Buku")
+        print("3. Kembali ke Menu Utama")
+        pilihan = input("Pilih opsi (1-3): ")
+
+        if pilihan == '1':
+            judul = input("Masukkan judul buku yang ingin dicari: ")
+            cari_buku(output_buku, judul)
+
+        elif pilihan == '2':
+            tampilkan(output_buku)
+
+        elif pilihan == '3':
+            break
+
+        else:
+            print("Pilihan tidak valid. Silakan pilih opsi yang benar.")
+
+
+def main():
+    nama = "output_buku.txt"
+    output_buku = muat(nama)
+    password_karyawan = "hasbiganteng"
+
+    while True:
+        print("=== Menu ===")
+        print("Siapakah Anda ?")
+        print("1. Karyawan")
+        print("2. Pendatang")
+        print("3. Keluar")
+        pilihan = input("Masukkan Pilihan (1/2/3): ")
+
+        if pilihan == '1':
+            password = input("Masukkan kata sandi karyawan : ")
+            if password == password_karyawan:
+                menu_karyawan(output_buku, nama)
+            else:
+                print("Kata sandinya salah nih!")
+            simpan(output_buku, nama)
+
+
+        elif pilihan == '2':
+            menu_pendatang(output_buku)
+
+        elif pilihan == '3':
+            print("Terima kasih telah menggunakan aplikasi ini. Sampai jumpa lagi!")
+            break
+
+        else:
+            print("Pilihan tidak valid. Silahkan pilih opsi yang benar.")
+
+
+if __name__ == "__main__":
+    main()
